@@ -53,8 +53,6 @@ Optional settings (same file, or environment variables): `OPENAI_MODEL` (default
 streamlit run app.py
 ```
 
-Open http://localhost:8501.
-
 ## 4. Add a transcript
 
 1. Save it as UTF-8 text in `corpus/`, e.g. `corpus/interview_005.txt`. Never overwrite existing files.

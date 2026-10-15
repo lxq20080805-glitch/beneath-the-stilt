@@ -1,0 +1,15 @@
+# Secrets
+.streamlit/secrets.toml
+
+# Private oral-history material and the index built from it
+corpus/
+index/
+*.docx
+
+# Python / caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.cache/
+.DS_Store

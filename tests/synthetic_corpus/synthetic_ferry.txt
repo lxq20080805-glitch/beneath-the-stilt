@@ -1,0 +1,12 @@
+TITLE: SYNTHETIC TEST TEXT — Ferry Lane (not a real interview)
+NOTE FOR USE: Invented text used only to test retrieval. It must never be presented as a real memory.
+
+## The ferry
+
+Ferry Lane is an invented riverside lane used for software testing. In this test text, a wooden ferry carries people across the river every morning, and the ferryman rings a small bell before leaving the bank.
+
+The fare in this test text is two coins. Children wait on the stone steps and count the boats passing downstream while the ferry loads baskets of vegetables.
+
+## Lanterns
+
+In the evenings of this test text, a lamplighter hangs paper lanterns along Ferry Lane and takes them down again at dawn. When the wind blows out a lantern, he lights it again from a burning incense stick.

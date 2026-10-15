@@ -157,7 +157,8 @@ def build_index(embedder, corpus_dir: Path = CORPUS_DIR, index_dir: Path = INDEX
 
     chunks = chunk_corpus(corpus_dir)
     index_dir.mkdir(parents=True, exist_ok=True)
-    dim = embedder.get_sentence_embedding_dimension()
+    get_dim = getattr(embedder, "get_embedding_dimension", None) or embedder.get_sentence_embedding_dimension
+    dim = get_dim()
     index = faiss.IndexFlatIP(dim)  # inner product on normalized vectors = cosine
     if chunks:
         index.add(_encode(embedder, [_embed_text(c) for c in chunks]))

@@ -1,4 +1,4 @@
-# Beneath the Stilt · 吊脚楼下
+# Beneath the Stilt
 
 An AI guide to the stilt houses (吊脚楼) of Chongqing and the lives of the people who lived in them.
 Visitors ask questions in English or Chinese; answers combine former residents' recollections
@@ -30,11 +30,15 @@ The first run downloads the multilingual embedding model
 
 ## 2. Set the API key
 
-Edit `.streamlit/secrets.toml` (template: `.streamlit/secrets.toml.example`):
+Edit `.streamlit/secrets.toml` (template: `.streamlit/secrets.toml.example`), uncomment the line
+and paste your key:
 
 ```toml
 OPENAI_API_KEY = "sk-..."
 ```
+
+Keep the line commented out until you have a key: Streamlit copies secrets into environment
+variables, so an empty value would override an `OPENAI_API_KEY` set in your shell.
 
 Never commit this file — it is already in `.gitignore`. Without a key the site still opens and shows
 a configuration notice; it never produces fake answers.
@@ -91,8 +95,11 @@ For each question the app retrieves the `TOP_K` most similar paragraphs and look
 | between the two | combine memories with general knowledge |
 | < `LOW_THRESHOLD` | answer from general knowledge; no excerpts are sent |
 
-Scores depend on the embedding model and the corpus, so the defaults (0.55 / 0.35) are a starting
-point. Check real questions and adjust:
+Scores depend on the embedding model and the corpus, so the defaults (0.65 / 0.30) are a starting
+point. They were set from test queries on the current corpus: relevant questions scored
+0.46–0.79 (Chinese questions score lower against the English corpus), unrelated ones 0.17–0.23.
+A high score does not guarantee relevance, so the prompt also tells the model to ignore excerpts
+that do not really answer the question. Check real questions and adjust:
 
 ```bash
 python rag.py --query "吊脚楼里怎么做饭？"

@@ -44,9 +44,10 @@ MAX_TOKENS = cfg("MAX_OUTPUT_TOKENS", 600)
 TOP_K = cfg("TOP_K", 4)
 # Cosine-similarity cut-offs for the answering strategy. These depend on the embedding
 # model and the corpus — check them with `python rag.py --query "..."` and adjust.
-HIGH_THRESHOLD = cfg("HIGH_THRESHOLD", 0.55)
-LOW_THRESHOLD = cfg("LOW_THRESHOLD", 0.35)
+HIGH_THRESHOLD = cfg("HIGH_THRESHOLD", 0.65)
+LOW_THRESHOLD = cfg("LOW_THRESHOLD", 0.30)
 HISTORY_TURNS = cfg("HISTORY_TURNS", 6)
+FOLLOWUP_MAX_CHARS = 20  # questions this short are searched together with the previous one
 SESSION_LIMIT = cfg("SESSION_MESSAGE_LIMIT", 30)
 DAILY_LIMIT = cfg("DAILY_MESSAGE_LIMIT", 500)
 MIN_INTERVAL = cfg("MIN_SECONDS_BETWEEN_MESSAGES", 3.0)
@@ -99,9 +100,11 @@ def retrieve(question: str, history: list[dict]):
         return [], "low", []
 
     results = retriever.search(question, TOP_K)
-    # For short follow-ups ("what happened next?") the previous question carries the topic.
+    # For short follow-ups ("what happened next?", "他晚上做什么？") the previous question carries
+    # the topic. Longer questions stand on their own, so an off-topic question can't borrow
+    # relevance from the previous one.
     prev = next((m["content"] for m in reversed(history) if m["role"] == "user"), None)
-    if prev:
+    if prev and len(question.strip()) <= FOLLOWUP_MAX_CHARS:
         alt = retriever.search(f"{prev}\n{question}", TOP_K)
         if alt and (not results or alt[0][1] > results[0][1]):
             results = alt
